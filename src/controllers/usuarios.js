@@ -101,7 +101,7 @@ const controller = {
       try {
         connection = await conectsql();
         const [rows] = await connection.execute(
-          "SELECT email, password FROM usuarios WHERE email = ?",
+          "SELECT email, password, id_rol FROM usuarios WHERE email = ? AND id_rol = 2",
           [params.email]
         );
         if (rows.length > 0 && rows[0].email === params.email) {
@@ -137,5 +137,49 @@ const controller = {
       });
     }
   },
+
+  loginAdmin: async (req, res) => {
+    let params = req.body;
+    if (params.email && params.password) {
+      let connection;
+      try {
+        connection = await conectsql();
+        const [rows] = await connection.execute(
+          "SELECT email, password, id_rol FROM usuarios WHERE email = ? AND id_rol = 1",
+          [params.email]
+        );
+        if (rows.length > 0 && rows[0].email === params.email) {
+          const match = await bcrypt.compare(params.password, rows[0].password);
+          if (match) {
+            res.json({
+              status: "success",
+              data: "Usted ha sido logueado exitosamente",
+            });
+          } else {
+            res.json({
+              status: "error",
+              message: "Contraseña incorrecta, intente nuevamente",
+            });
+          }
+        } else {
+          res.status(500).json({
+            status: "error",
+            message: "No se ha encontrado el usuario",
+          });
+        }
+      } catch (error) {
+        res.status(500).json({
+          status: "error",
+          message: "Error",
+          error: error.message,
+        });
+      }
+    } else {
+      res.json({
+        status: "error",
+        message: "Faltan datos",
+      });
+    }
+  }
 };
 export default controller;
