@@ -94,6 +94,7 @@ const controller = {
     }
   },
 
+  //loguear usuario
   login: async (req, res) => {
     let params = req.body;
     if (params.email && params.password) {
@@ -138,6 +139,7 @@ const controller = {
     }
   },
 
+  //loguear admin
   loginAdmin: async (req, res) => {
     let params = req.body;
     if (params.email && params.password) {
