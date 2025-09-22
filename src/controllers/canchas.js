@@ -47,6 +47,39 @@ const controller = {
     }
   },
 
+  obtenerCanchas: async (req, res) => {
+     let connection;
+
+    try {
+      connection = await conectsql();
+      const [rows] = await connection.execute("SELECT * FROM canchas");
+
+      if (rows.length > 0) {
+        res.json({
+          status: "success",
+          data: rows,
+        });
+      } else {
+        res.json({
+          status: "success",
+          data: "No hay canchas registradas todavía.",
+        });
+      }
+    } catch (error) {
+      console.error("Error al obtener las canchas:", error);
+      res.status(500).json({
+        status: "error",
+        message: "Error al obtener las canchas",
+        error,
+      });
+    } finally {
+      if (connection) {
+        connection.close();
+        console.log("Conexión cerrada");
+      }
+    }
+  }
+
 };
 
 export default controller;
