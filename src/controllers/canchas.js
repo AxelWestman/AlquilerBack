@@ -47,43 +47,6 @@ const controller = {
     }
   },
 
-  registroBloqueHorario: async (req, res) => {
-    let params = req.body;
-    if(!params.hora_inicio || !params.hora_fin){
-        res.json({
-        status: "error",
-        message: "Faltan datos para la creación de un bloque horario",
-      });
-    } else{
-        let connection;
-        try{
-            connection = await conectsql();
-            const [result] = await connection.execute(
-          `INSERT INTO bloques_horarios (hora_inicio, hora_fin) VALUES (?, ?)`,
-          [
-            params.hora_inicio,
-            params.hora_fin
-          ]
-        );
-        return res.json({
-          status: "success",
-          message: "Se ha registrado el horario exitosamente!",
-        });
-        } catch(error){
-            res.status(500).json({
-          status: "error",
-          message: "Error al registrar el horario..." + error,
-          error: error,
-        });
-        }
-        finally {
-        if (connection) {
-          connection.close();
-          console.log("Conexión cerrada");
-        }
-      }
-    }
-  }
 };
 
 export default controller;
