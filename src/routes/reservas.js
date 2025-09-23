@@ -4,6 +4,7 @@ import ReservasController from '../controllers/reservas.js';
 var router = express.Router();
 
 router.get('/obtenerReservas', ReservasController.verficarReserva);
+router.get('/verHorariosyFecha', ReservasController.verHorarioyFechaCancha);
 router.post('/anadirReserva', ReservasController.realizarReserva);
 
 export default router;

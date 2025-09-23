@@ -40,6 +40,53 @@ const controller = {
     }
   },
 
+  //obtener usuario por id
+  getUsuarioId: async (req, res) =>{
+    let id = req.query.usuario_id;
+
+    if(!id || id === 0){
+      res.json({
+        status: "error",
+        message: "Falta el id del usuario",
+      });
+    }
+    else{
+      let connection;
+      try{
+        connection = await conectsql();
+        const [rows] = await connection.execute(
+            `SELECT * FROM usuarios WHERE idusuarios = ?`,
+            [id]
+          );
+        if(rows.length < 0){
+           res.json({
+             status: "error",
+             message: "No se ha encontrado al usuario",
+           });
+        } else{
+          res.json({
+            status: "success",
+            data: rows
+          })
+        }
+      }
+      catch(error){
+        console.error("Error al buscar usuario por id:", error);
+        res.status(500).json({
+          status: "error",
+          message: "Error al buscar al usuario por id",
+          error: error,
+        });
+      } finally {
+        if (connection) {
+          connection.close();
+          console.log("Conexión cerrada");
+        }
+      }
+    }
+
+  },
+
   //añadir usuario
   addUsuario: async (req, res) => {
     let params = req.body;

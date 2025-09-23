@@ -7,6 +7,7 @@ import fs from 'fs';
 
 const controller = {
 
+    //obtener bloques horarios
     getBloquesHorarios: async (req, res) => {
         let connection;
 
@@ -40,6 +41,7 @@ const controller = {
     }
     },
 
+    //registrar bloque horario
     registroBloqueHorario: async (req, res) => {
         let params = req.body;
         if(!params.hora_inicio || !params.hora_fin){

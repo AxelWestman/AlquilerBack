@@ -7,6 +7,7 @@ import fs from 'fs';
 
 const controller = {
   
+  //registrar cancha
   registroCancha: async (req, res) => {
     let params = req.body;
     if (!params.nombre || params.nombre === "") {
@@ -47,6 +48,7 @@ const controller = {
     }
   },
 
+  //obtener todas las canchas
   obtenerCanchas: async (req, res) => {
      let connection;
 
@@ -78,7 +80,7 @@ const controller = {
         console.log("Conexión cerrada");
       }
     }
-  }
+  },
 
 };
 
