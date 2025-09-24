@@ -177,6 +177,11 @@ const controller = {
           message: "Error",
           error: error.message,
         });
+      }finally {
+        if (connection) {
+          connection.close();
+          console.log("Conexión cerrada");
+        }
       }
     } else {
       res.json({
@@ -229,6 +234,50 @@ const controller = {
         message: "Faltan datos",
       });
     }
+  },
+
+  //eliminar usuario
+  deleteUsuario: async (req, res) => {
+   let {idUsuario} = req.body;
+   if(!idUsuario || idUsuario === 0){
+    res.json({
+      status: error,
+      message: "Falta el id"
+    })
+   } else{
+      let connection;
+    try{
+      connection = await conectsql();
+      const [rows] = await connection.execute(
+          "DELETE FROM usuarios WHERE idusuarios = ?;",
+          [idUsuario]
+        );
+        if(rows.length < 0){
+          res.json({
+            status: "error",
+            message: "No se ha podido eliminar al usuario"
+          })
+        } else{
+          res.json({
+            status: "success",
+            message: "El usuario se ha eliminado satisfactoriamente"
+          })
+        }
+    }
+    catch(error){
+      res.status(500).json({
+          status: "error",
+          message: "Error al borrar el usuario",
+          error: error,
+        });
+      } finally {
+        if (connection) {
+          connection.close();
+          console.log("Conexión cerrada");
+        }
+      }
+   }
   }
+
 };
 export default controller;
