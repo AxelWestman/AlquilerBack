@@ -4,6 +4,11 @@ import bcrypt from 'bcrypt';
 //import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
+import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+dotenv.config();
+
+const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
 const controller = {
   //obtener todos los usuarios
@@ -149,15 +154,17 @@ const controller = {
       try {
         connection = await conectsql();
         const [rows] = await connection.execute(
-          "SELECT email, password, id_rol FROM usuarios WHERE email = ? AND id_rol = 2",
+          "SELECT idusuarios, email, password, id_rol FROM usuarios WHERE email = ? AND id_rol = 2",
           [params.email]
         );
         if (rows.length > 0 && rows[0].email === params.email) {
           const match = await bcrypt.compare(params.password, rows[0].password);
           if (match) {
+            const user = { id: rows[0].idusuarios, nombre: rows[0].email };
+            const token = jwt.sign(user, SECRET_KEY, { expiresIn: "1h" });
             res.json({
               status: "success",
-              data: "Usted ha sido logueado exitosamente",
+              data: token,
             });
           } else {
             res.json({

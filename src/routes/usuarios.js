@@ -1,9 +1,10 @@
 import express from 'express';
 import UsuariosController from '../controllers/usuarios.js';
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 var router = express.Router();
 
-router.get('/getUsuarios', UsuariosController.getUsuarios);
+router.get('/getUsuarios',authMiddleware, UsuariosController.getUsuarios);
 router.get('/getUsuarioId', UsuariosController.getUsuarioId);
 router.post('/addUsuario', UsuariosController.addUsuario);
 router.post('/loguearUsuario', UsuariosController.login);
