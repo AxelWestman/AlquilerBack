@@ -5,10 +5,10 @@ import { authMiddleware } from "../middlewares/authMiddleware.js";
 var router = express.Router();
 
 router.get('/getUsuarios',authMiddleware, UsuariosController.getUsuarios);
-router.get('/getUsuarioId', UsuariosController.getUsuarioId);
-router.post('/addUsuario', UsuariosController.addUsuario);
+router.get('/getUsuarioId', authMiddleware, UsuariosController.getUsuarioId);
+router.post('/addUsuario',  UsuariosController.addUsuario);
 router.post('/loguearUsuario', UsuariosController.login);
 router.post('/loguearAdmin', UsuariosController.loginAdmin);
-router.delete('/deleteUsuario', UsuariosController.deleteUsuario)
+router.delete('/deleteUsuario', authMiddleware, UsuariosController.deleteUsuario)
 
 export default router;

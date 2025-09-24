@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+dotenv.config();
 
-const SECRET_KEY = "mi_clave_super_secreta"; // usa una env var en prod
+const SECRET_KEY = process.env.SECRET_KEY_JWT;
 
 export function authMiddleware(req, res, next) {
   const authHeader = req.headers["authorization"];
