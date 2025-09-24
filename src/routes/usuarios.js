@@ -8,5 +8,6 @@ router.get('/getUsuarioId', UsuariosController.getUsuarioId);
 router.post('/addUsuario', UsuariosController.addUsuario);
 router.post('/loguearUsuario', UsuariosController.login);
 router.post('/loguearAdmin', UsuariosController.loginAdmin);
+router.delete('/deleteUsuario', UsuariosController.deleteUsuario)
 
 export default router;
