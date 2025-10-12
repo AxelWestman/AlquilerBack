@@ -14,6 +14,8 @@ console.log(port)
 app.listen(port)
 console.log("Server escuchando en el puerto " + port)
 
+app.use(cors());
+
 //cargar archivos de rutas
 import usuarios_routes from './routes/usuarios.js';
 import canchas_routes from './routes/canchas.js';

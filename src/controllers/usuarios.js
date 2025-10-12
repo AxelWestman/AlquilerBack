@@ -173,7 +173,7 @@ const controller = {
             });
           }
         } else {
-          res.status(500).json({
+          res.json({
             status: "error",
             message: "No se ha encontrado el usuario",
           });
